@@ -44,7 +44,7 @@ const getCourseDetailsByID = async (req, res) => {
         
         const {id} = req.params;
         const courseDetails = await Course.findById(id);
-
+        console.log(courseDetails,"courseDetails");
         if(!courseDetails){
             return res.status(404).json({
                 success: false,
@@ -61,7 +61,7 @@ const getCourseDetailsByID = async (req, res) => {
         console.log(error);
         res.status(500).json({
             success: false,
-            message: 'Error adding new course'
+            message: 'Error getting course details'
         })
     }
 }

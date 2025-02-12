@@ -15,12 +15,12 @@ const courseSchema = new mongoose.Schema({
     category: String,
     level: String,
     primaryLanguage: String,
-    subtitles: String,
+    subtitle: String,
     description: String,
     image: String,
     welcomeMessage: String,
     pricing: Number,
-    objectiveer: String,
+    objectives: String,
     students: [
         {
             studentId: String,

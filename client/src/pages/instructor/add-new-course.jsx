@@ -71,7 +71,7 @@ function AddNewCoursePage() {
 
     async function fetchCurrentCourseDetails() {
         const response = await fetchInstructorCourseDetailsService(currentEditedCourseId);
-        
+        console.log(response)
         if(response.success){
             const setCourseFormData = Object.keys(courseLandingInitialFormData) .reduce((acc,key)=>{
                 acc[key] = response?.data[key] || courseLandingInitialFormData[key];
@@ -89,7 +89,7 @@ function AddNewCoursePage() {
       useEffect(() => {
         if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
       }, [params?.courseId]);
-    console.log(params, currentEditedCourseId, params.couseId);
+
 
 
 
