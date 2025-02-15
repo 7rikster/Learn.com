@@ -10,8 +10,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { filterOptions, sortOptions } from "@/config";
+import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
-import { fetchStudentViewCourseListService } from "@/services";
+import {
+  checkCoursePurchaseInfoService,
+  fetchStudentViewCourseListService,
+} from "@/services";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
@@ -40,6 +44,7 @@ function StudentViewCoursesPage() {
   } = useContext(StudentContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { auth } = useContext(AuthContext);
 
   async function fetchAllStudentViewCourses(filters, sort) {
     const query = new URLSearchParams({
@@ -93,6 +98,20 @@ function StudentViewCoursesPage() {
 
     setFilters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+  }
+
+  async function handleCourseNavigate(currentCourseId) {
+    const response = await checkCoursePurchaseInfoService(
+      currentCourseId,
+      auth?.user?._id
+    );
+    if (response?.success) {
+      if (response?.data) {
+        navigate(`/course-progress/${currentCourseId}`);
+      } else {
+        navigate(`/course/details/${currentCourseId}`);
+      }
+    }
   }
 
   return (
@@ -166,7 +185,7 @@ function StudentViewCoursesPage() {
             {studentViewCourseList && studentViewCourseList.length > 0 ? (
               studentViewCourseList.map((course, index) => (
                 <Card
-                  onClick={() => navigate(`/course/details/${course._id}`)}
+                  onClick={() => handleCourseNavigate(course?._id)}
                   className="flex gap-4 border rounded-lg overflow-hidden shadow-lg cursor-pointer"
                   key={index}
                 >
