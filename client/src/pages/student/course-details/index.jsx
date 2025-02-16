@@ -15,12 +15,13 @@ import VideoPlayer from "@/components/video-player";
 import { AuthContext } from "@/context/auth-context";
 import { StudentContext } from "@/context/student-context";
 import {
+  checkCoursePurchaseInfoService,
   createPaymentService,
   fetchStudentViewCourseDetailsService,
 } from "@/services";
 import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 function StudentViewCourseDetailsPage() {
   const { auth } = useContext(AuthContext);
@@ -40,8 +41,20 @@ function StudentViewCourseDetailsPage() {
 
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   async function fetchStudentViewCourseDetails(courseId) {
+    const checkCoursePurchaseInfoResponse =
+      await checkCoursePurchaseInfoService(courseId, auth?.user?._id);
+
+    if (
+      checkCoursePurchaseInfoResponse?.success &&
+      checkCoursePurchaseInfoResponse?.data
+    ) {
+      navigate(`/course-progress/${courseId}`);
+      return;
+    }
+
     const response = await fetchStudentViewCourseDetailsService(courseId);
     if (response.success) {
       setStudentViewCourseDetails(response.data);

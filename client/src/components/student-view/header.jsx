@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useContext } from "react";
 import { AuthContext } from "@/context/auth-context";
@@ -6,12 +6,15 @@ import { TvMinimalPlay } from "lucide-react";
 
 function StudentViewCommonHeader() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { resetCredentials } = useContext(AuthContext);
 
   function handleLogOut() {
     resetCredentials();
     sessionStorage.clear();
   }
+
+  if (location.pathname.includes("/course-progress")) return null;
 
   return (
     <div className=" w-full bg-white">
@@ -26,7 +29,11 @@ function StudentViewCommonHeader() {
             <Button
               variant="outline"
               className="text-[14px] md:text-[16px] font-medium"
-              onClick={() => navigate("/courses")}
+              onClick={() => {
+                location.pathname.includes("/courses")
+                  ? null
+                  : navigate("/courses");
+              }}
             >
               Explore Courses
             </Button>
