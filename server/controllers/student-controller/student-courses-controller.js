@@ -9,11 +9,11 @@ const getStudentCoursesById = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      data: studentBoughtCourses.courses,
+      data: studentBoughtCourses?.courses,
     });
   } catch (error) {
     console.log(error);
-    req.status(500).json({
+    res.status(500).json({
       success: false,
       message: "Internal server error",
     });
