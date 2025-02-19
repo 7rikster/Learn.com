@@ -46,7 +46,7 @@ function StudentViewCourseProgressPage() {
           courseDetails: response?.data?.courseDetails,
           progress: response?.data?.progress,
         });
-        console.log(response?.data);
+        // console.log(response?.data);
         if (response?.data?.completed) {
           setCurrentLecture(response?.data?.courseDetails?.curriculum[0]);
           setShowCourseCompleteDialog(true);
@@ -98,6 +98,13 @@ function StudentViewCourseProgressPage() {
       setShowCourseCompleteDialog(false);
       fetchCurrentCourseProgress();
     }
+  }
+
+  function handleNextLecture() {
+    setCurrentLecture({
+      ...currentLecture,
+      progressValue: 1,
+    });
   }
 
   useEffect(() => {
@@ -153,8 +160,15 @@ function StudentViewCourseProgressPage() {
             onProgressUpdate={setCurrentLecture}
             progressData={currentLecture}
           />
-          <div className="p-6 bg-[#1c1d1f]">
-            <h2 className="text-2xl font-bold mb-2">{currentLecture?.title}</h2>
+          <div className="p-4 bg-[#1c1d1f] flex items-center justify-between">
+            <h2 className="text-2xl font-bold">{currentLecture?.title}</h2>
+            <Button
+              className="mr-20 hidden md:block text-black bg-gray-100"
+              variant="ghost"
+              onClick={handleNextLecture}
+            >
+              Next Lecture
+            </Button>
           </div>
         </div>
         <div
@@ -183,7 +197,8 @@ function StudentViewCourseProgressPage() {
                   {studentCurrentCourseProgress?.courseDetails?.curriculum?.map(
                     (item) => (
                       <div
-                        className="flex items-center space-x-2 text-sm text-white font-bold cursor-pointer"
+                        className="flex items-center space-x-2 text-sm text-white font-bold cursor-pointer p-0.5"
+                        onClick={() => setCurrentLecture(item)}
                         key={item._id}
                       >
                         {studentCurrentCourseProgress?.progress?.find(
