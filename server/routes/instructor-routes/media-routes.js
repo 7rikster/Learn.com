@@ -31,7 +31,7 @@ router.delete('/delete/:id', async (req, res)=>{
         const {id} = req.params;
         
         if(!id){
-            return res.statur(400).json({
+            return res.status(400).json({
                 success: false,
                 message: 'Asset Id is required'
             })

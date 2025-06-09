@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 function MediaProgressBar({isMediaUploading, progress}) {
 
     const [showProgress, setShowProgress] = useState(false);
-    const [animatedProgress, setAnimatedProgress] = useState(0);
+    const [animatedProgress, setAnimatedProgress] = useState(0); 
 
     useEffect(()=>{
         if(isMediaUploading){

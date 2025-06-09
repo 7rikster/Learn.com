@@ -39,7 +39,9 @@ app.use("/student/course", StudentViewCourseRoutes);
 app.use("/student/order", StudentViewOrderRoutes);
 app.use("/student/courses-bought", StudentCoursesRoutes);
 app.use("/student/course-progress", StudentCourseProgressRoutes);
-
+app.get('/ping', (req, res) => {
+  res.send('pong');
+});
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({
